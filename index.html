@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <title>Calculadora de Probabilidad y Estadística</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Probabilidad y Estadística</h1>
+        </header>
+
+        <!-- Menu de lado -->
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="menu-item active" data-section="descriptive">Estadística Descriptiva</div>
+                <div class="menu-item" data-section="probability">Probabilidad y Conteo</div>
+                <div class="menu-item" data-section="random-vars">Variables Aleatorias</div>
+                <div class="menu-item" data-section="distributions">Distribuciones de Probabilidad</div>
+                <div class="menu-item" data-section="regression">Regresión Lineal</div>
+                <div class="menu-item" data-section="applied">Estadística Aplicada</div>
+            </div>
+
+            <div class="content-area">
+                <!-- SECCIÓN 1: ESTADÍSTICA DESCRIPTIVA -->
+                <div id="descriptive" class="section active">
+                    <center><h2>Estadística Descriptiva</h2></center>
+                    <div class="input-group">
+                        <label>Ingresa los datos (separados por comas):</label>
+                        <textarea class="data-input" id="dataInput" placeholder="Ejemplo: 12, 15, 18, 22, 25"></textarea>
+                    </div>
+                    
+                    <center>
+                    <button class="btn" onclick="calculateDescriptive()">Calcular Todo</button>
+                    <button class="btn btn-clear" onclick="clearDescriptive()">Limpiar</button>
+                    </center>
+
+                    <div class="result" id="descriptiveResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="descriptiveOutput"></div></center>
+                    </div>
+                    
+                </div>
+
+                <!-- SECCIÓN 2: PROBABILIDAD -->
+                <div id="probability" class="section">
+                    <center><h2>Probabilidad y Técnicas de Conteo</h2></center>
+                    <div class="grid-2">
+                        <div>
+                            <h3>Permutaciones y Combinaciones</h3>
+                            <div class="input-group">
+                                <label>n (total de elementos):</label>
+                                <input type="number" id="nPerm" placeholder="Ej: 10">
+                            </div>
+                            <div class="input-group">
+                                <label>r (elementos a elegir):</label>
+                                <input type="number" id="rPerm" placeholder="Ej: 3">
+                            </div>
+                            <center><button class="btn" onclick="calculatePermComb()">Calcular</button></center>
+                        </div>
+                        
+                        <div>
+                            <h3>Probabilidad Básica</h3>
+                            <div class="input-group">
+                                <label>Casos favorables:</label>
+                                <input type="number" id="favorable" placeholder="Ej: 5">
+                            </div>
+                            <div class="input-group">
+                                <label>Casos totales:</label>
+                                <input type="number" id="totalCases" placeholder="Ej: 20">
+                            </div>
+                            <center><button class="btn" onclick="calculateProbability()">Calcular Probabilidad</button></center>
+                        </div>
+                    </div>
+                    
+                    <div class="result" id="probabilityResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="probabilityOutput"></div></center>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 3: VARIABLES ALEATORIAS -->
+                <div id="random-vars" class="section">
+                    <center><h2>Variables Aleatorias</h2></center>
+                    <div class="grid-2">
+                        <div>
+                            <h3>Variable Discreta</h3>
+                            <label>Valores (x) y probabilidades P(x) (separar por |):</label>
+                            <input type="text" id="discreteVals" placeholder="Ej: 1,2,3,4">
+                            <input type="text" id="discreteProbs" placeholder="Ej: 0.1,0.3,0.4,0.2" style="margin-top: 10px;">
+                            <center><button class="btn" onclick="calculateDiscreteVar()">Calcular</button></center>
+                        </div>
+                        
+                        <div>
+                            <h3>Variable Continua</h3>
+                            <p>Selecciona distribución:</p>
+                            <select id="continuousDist" onchange="showContinuousParams()">
+                                <option value="uniform">Uniforme</option>
+                                <option value="exponential">Exponencial</option>
+                                <option value="normal">Normal</option>
+                            </select>
+                            <div id="continuousParams"></div>
+                            <center><button class="btn" onclick="calculateContinuousVar()">Calcular</button></center>
+                        </div>
+                    </div>
+                    
+                    <div class="result" id="randomVarsResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="randomVarsOutput"></div></center>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 4: DISTRIBUCIONES -->
+                <div id="distributions" class="section">
+                    <center><h2>Distribuciones de Probabilidad</h2></center>
+                    <div class="input-group">
+                        <label>Selecciona distribución:</label>
+                        <!-- Estan en el js -->
+                        <select id="distributionType" onchange="showDistributionParams()">
+                            <option value="binomial">Binomial</option>
+                            <option value="poisson">Poisson</option>
+                            <option value="normal">Normal</option>
+                        </select>
+                    </div>
+                    
+                    <div id="distributionParams"></div>
+                    <center><button class="btn" onclick="calculateDistribution()">Calcular</button></center>
+                    
+                    <div class="result" id="distributionResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="distributionOutput"></div></center>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 5: REGRESIÓN -->
+                <div id="regression" class="section">
+                    <center><h2>Regresión Lineal</h2></center>
+                    <div class="grid-2">
+                        <div>
+                            <label>Valores X (separados por comas):</label>
+                            <input type="text" id="regX" placeholder="1,2,3,4,5">
+                        </div>
+                        <div>
+                            <label>Valores Y (separados por comas):</label>
+                            <input type="text" id="regY" placeholder="2,4,5,4,5">
+                        </div>
+                    </div>
+                    <center><button class="btn" onclick="calculateRegression()">Calcular Regresión</button></center>
+                    
+                    <div class="result" id="regressionResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="regressionOutput"></div></center>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 6: ESTADÍSTICA APLICADA -->
+                <div id="applied" class="section">
+                    <center><h2>Estadística Aplicada</h2></center>
+                    <div class="grid-2">
+                        <div>
+                            <h3>Tamaño de Muestra</h3>
+                            <div class="input-group">
+                                <label>Nivel de confianza (%):</label>
+                                <input type="number" id="confLevel" value="95" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label>Error máximo (E):</label>
+                                <input type="number" id="maxError" value="0.05" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Proporción estimada (p):</label>
+                                <input type="number" id="estProp" value="0.5" step="0.01" min="0" max="1">
+                            </div>
+                            <center><button class="btn" onclick="calculateSampleSize()">Calcular Tamaño</button></center>
+                        </div>
+                        
+                        <div>
+                            <h3>Prueba de Hipótesis</h3>
+                            <div class="input-group">
+                                <label>Media muestral (x̄):</label>
+                                <input type="number" id="sampleMean" placeholder="Ej: 25.3">
+                            </div>
+                            <div class="input-group">
+                                <label>Desviación muestral (s):</label>
+                                <input type="number" id="sampleStd" placeholder="Ej: 5.2">
+                            </div>
+                            <div class="input-group">
+                                <label>Tamaño de muestra (n):</label>
+                                <input type="number" id="sampleSize" placeholder="Ej: 30">
+                            </div>
+                            <center><button class="btn" onclick="calculateHypothesis()">Calcular Prueba t</button></center>
+                        </div>
+                    </div>
+                    
+                    <div class="result" id="appliedResult">
+                        <center><h3>Resultados:</h3>
+                        <div id="appliedOutput"></div></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/calcular.js"></script>
+        <center><a href="assets/Probabilidad.pdf">Guía de probabilidad</a></center>
+        <br><br>
+    
+</body>
+</html>
